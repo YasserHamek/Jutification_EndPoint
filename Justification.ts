@@ -1,10 +1,30 @@
 
 export class Justification {
-
+    private paragraphArray: string[] = [];
     private textArray: string[] = [];
     private textArrayJustified: string[] = [];
     
     constructor(){}
+
+    FindingLineEnding(text: string){
+        
+        let endLineIndex: number[]=[];
+        let loopingStringIndex: number = 0;
+
+        //console.log(slicedText.length)
+        for(let c of text){
+            if(c==='\n'){
+                endLineIndex.push(loopingStringIndex);
+            }
+            loopingStringIndex++;
+        }
+
+        for(let i in endLineIndex){
+            
+        }
+
+
+    }
 
     //slice the text in small texts, return an array of small texts 
     SlicingText(text: string): string[]{
@@ -16,9 +36,9 @@ export class Justification {
         while(!breakCondition){
 
             if (editedText.length>80){
-                
-                //the case where the string end with space
+
                 if(editedText.charAt(79)==' '){
+                    //the case where this line end with space
                     this.textArray.push(editedText.slice(0,80))
                     editedText= editedText.slice(79,editedText.length)
                 }else {
@@ -39,16 +59,15 @@ export class Justification {
                         editedText= editedText.slice(79,editedText.length);
                     } else {
                         this.textArray.push(editedText.slice(0,80-storedNumber))
-                        editedText= editedText.slice(79-storedNumber+1,editedText.length)  
+                        editedText= editedText.slice(80-storedNumber,editedText.length)  
                     }
                 }
-            
+
             }else {
                 this.textArray.push(editedText);
                 breakCondition=true;
             }
         }
-
         return this.textArray;
     }
 
@@ -72,9 +91,8 @@ let justifyClass: Justification = new Justification();
 let arrayText: string[];
 let text: string;
 
-text='hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme'
-
-console.log('gjhgjh \n gfhgf')
+text='hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme '
+console.log(text.length)
 
 arrayText=justifyClass.SlicingText(text);
 
