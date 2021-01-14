@@ -8,47 +8,47 @@ export class Justification {
     //slice the text in small texts, return an array of small texts 
     //( if have time make the number of caracter as in input)
     SlicingText(text: string): string[]{
+        let editedText: string = text;
         let indexOfBeginning: number=0;
-        let indexOfSlicedText : number =0;
-        let storedNumber : number = 0;
+        let indexOfSlicedText: number =0;
+        let storedNumber: number = 0;
+        let breakCondition: boolean = false;
+        
+        //repeating the slicing operation to have string's of 80 caracter or lesser
+        while(!breakCondition){
 
-        if (text.length>80){
-            
-            //repeating the slicing operation to have string's of 80 caracter or lesser
-            while(indexOfSlicedText !>= text.length){
-                
-                indexOfBeginning=indexOfSlicedText;
-
+            if (editedText.length>80){
+    
                 //the case where the string end with space
-                if(text.charAt(indexOfBeginning+79)==''){
-                    indexOfSlicedText=indexOfBeginning+80;
-                    this.textArray.push(text.slice(indexOfBeginning,indexOfSlicedText))
+                if(editedText.charAt(79)==''){
+                    this.textArray.push(editedText.slice(0,80))
+                    editedText= editedText.slice(80,editedText.length)
                 }else {
                     //finding the space in the text
                     let i : number = 0;
                     let condition: boolean = false;
             
-                    while(!condition && i<indexOfBeginning+79){
+                    while(!condition && i<79){
                         i++;
-                        if(text.charAt(indexOfBeginning+79-i)==''){
+                        if(editedText.charAt(79-i)==''){
                             condition = true;
+                            storedNumber=i;
                         }
-                        storedNumber=i;
                     }
                     //checking if the word does not contains 79 caracter
-                    if(storedNumber===indexOfBeginning+80){
-                        indexOfSlicedText=indexOfBeginning+80;
-                        this.textArray.push(text.slice(indexOfBeginning,indexOfSlicedText));
+                    if(storedNumber===80){
+                        this.textArray.push(editedText.slice(0,80));
+                        editedText= editedText.slice(80,editedText.length);
                     } else {
-                        indexOfSlicedText=indexOfBeginning+80-storedNumber;
-                        this.textArray.push(text.slice(indexOfBeginning,indexOfSlicedText))  
+                        this.textArray.push(editedText.slice(0,80-storedNumber+1))
+                        editedText= editedText.slice(80-storedNumber+1,editedText.length)  
                     }
                 }
+            
+            }else {
+                this.textArray.push(editedText);
+                breakCondition=true;
             }
-
-        
-        }else {
-            this.textArray.push(text);
         }
 
         return this.textArray;
