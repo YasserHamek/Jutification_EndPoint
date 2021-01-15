@@ -78,7 +78,7 @@ export class Justification {
         if(outPutLine.charAt(outPutLine.length)=='\n'){
             return outPutLine;
         }else {
-
+            outPutLine = outPutLine.trim();
             numberOfSpan = 80 - outPutLine.length;
 
             if(numberOfSpan==0){
@@ -129,11 +129,10 @@ let text2='hello algorithme justification hello algorithme justification hello a
 //console.log(justifyClass.AddingSpanToLine(text,4))
 
 //justification
-//let paragraphe = justifyClass.MainJustificationMethod(text);
+let paragraphe = justifyClass.MainJustificationMethod(text);
 let paragraphe2 = justifyClass.AddingSpanToLine(text2,10);
-let arr: string[] = [];
-arr.push('  paragraphe  '.trim())
-console.log(arr);
+
+console.log(paragraphe);
 
 //Slicing Text Test
 /*
