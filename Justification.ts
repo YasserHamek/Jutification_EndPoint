@@ -2,28 +2,29 @@
 export class Justification {
     private paragraphArray: string[] = [];
     private textArray: string[] = [];
-    private textArrayJustified: string[] = [];
+    private finalText: string[] = [];
     
     constructor(){}
 
-    FindingLineEnding(text: string){
+    Justification(text: string): string[]{
         
-        let endLineIndex: number[]=[];
-        let loopingStringIndex: number = 0;
-
-        //console.log(slicedText.length)
         for(let c of text){
             if(c==='\n'){
-                endLineIndex.push(loopingStringIndex);
+                this.paragraphArray = text.split('\n');   
             }
-            loopingStringIndex++;
+        }
+        if (this.paragraphArray.length===0){
+            this.paragraphArray.push(text)
         }
 
-        for(let i in endLineIndex){
-            
-        }
+        this.paragraphArray = this.paragraphArray.map((value)=>value.concat('\n'));
 
 
+        /*calling SlicingTextMethod
+
+        this.finalText = textArray.map( (value) => JustifyLine(value) )*/
+        
+        return this.paragraphArray;
     }
 
     //slice the text in small texts, return an array of small texts 
@@ -72,17 +73,12 @@ export class Justification {
     }
 
     //Second step : making the space in the strings equal as possible 
-    justifyText(textArray: string[]): string[]{
+    justifyLine(text: string): string{
         let i: boolean = false;
 
-        this.textArrayJustified = textArray.map( (value) => 
         
-        value 
-        
-        
-        )
 
-        return this.textArrayJustified;
+        return null;
     }
 }
 
@@ -91,11 +87,22 @@ let justifyClass: Justification = new Justification();
 let arrayText: string[];
 let text: string;
 
-text='hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme '
+text='hello justification algorithme hello justification\n algorithme hello justification algorithme\n hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme hello justification algorithme '
 console.log(text.length)
 
-arrayText=justifyClass.SlicingText(text);
+let paragraphe = justifyClass.Justification(text);
+
+console.log(paragraphe);
+console.log(paragraphe.length)
+
+
+//Slicing Text Test
+for (let i in paragraphe){
+console.log(i)
+}
+/*
+arrayText=justifyClass.SlicingText(paragraphe[i]);
 
 console.log(text.length)
 console.log(arrayText)
-console.log(arrayText[0].length)
+console.log(arrayText[0].length)*/
