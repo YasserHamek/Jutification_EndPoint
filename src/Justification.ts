@@ -110,6 +110,7 @@ export class Justification {
         }
         return outPutLine;
     }
+
 }
 
 //some test
@@ -117,7 +118,7 @@ let justifyClass: Justification = new Justification();
 let arrayText: string[];
 let text: string;
 
-text='hello justification algorithme hello justification algorithme hello hello hello hello'
+text='hello hello justification algorithme hello justification algorithme hello hello hello hello'
 console.log(text.length)
 
 //addingSpans
