@@ -6,7 +6,7 @@ export class Justification {
     
     constructor(){}
 
-    Justification(text: string): string[]{
+    MainJustificationMethod(text: string): string[]{
         
         if(text.includes('\n')){
             this.paragraphArray = text.split('\n');   
@@ -16,12 +16,13 @@ export class Justification {
 
         this.paragraphArray = this.paragraphArray.map((value)=>value.concat('\n'));
 
+        //calling SlicingTextMethod
+        this.paragraphArray.forEach((value) => this.SlicingText(value))
 
-        /*calling SlicingTextMethod
-
-        this.finalText = textArray.map( (value) => JustifyLine(value) )*/
+        //calling justifyLine method
+        this.textArray.forEach((value) => this.finalText.push(this.justifyLine(value)));
         
-        return this.paragraphArray;
+        return this.textArray;
     }
 
     //slice the text in small texts, return an array of small texts 
@@ -118,17 +119,17 @@ let justifyClass: Justification = new Justification();
 let arrayText: string[];
 let text: string;
 
-text='hello hello justification algorithme hello justification algorithme hello hello hello hello'
+text='hello hello justification algorithme hello justification algorithme hello justification algorithme \n hello hello hello hello hello hello justification algorithme hello justification algorithme hello hello hello hello hello hello justification algorithme hello justification algorithme hello hello hello hello hello hello justification algorithme hello justification algorithme hello hello hello hello '
 console.log(text.length)
 
 //addingSpans
-console.log(justifyClass.AddingSpanToLine(text,4))
+//console.log(justifyClass.AddingSpanToLine(text,4))
 
 //justification
-/*let paragraphe = justifyClass.Justification(text);
+let paragraphe = justifyClass.MainJustificationMethod(text);
 
 console.log(paragraphe);
-console.log(paragraphe.length)*/
+console.log(paragraphe.length)
 
 
 //Slicing Text Test
