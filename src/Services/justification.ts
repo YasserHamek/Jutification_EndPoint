@@ -123,28 +123,3 @@ export class Justification {
 
 }
 
-//let text2='hello algorithme justification hello algorithme justification hello algorithme justification hello algorithme justification hello algorithme justification hello algorithme \n justification hello algorithme justification  algorithme justification hello algorithme justification hello algorithme justification hello algorithme justification hello algorithme justification '
-//console.log(text.length)
-
-
-//addingSpans
-//console.log(justifyClass.AddingSpanToLine(text,4))
-
-//justification
-//let paragraphe = justifyClass.MainJustificationMethod(text);
-//let paragraphe2 = justifyClass.MainJustificationMethod(text2);
-
-//console.log(paragraphe);
-//verifing strings length
-
-/*for(let i of paragraphe){
-    console.log(i.length)
-}*/
-
-//Slicing Text Test
-/*
-arrayText=justifyClass.SlicingText(paragraphe[i]);
-
-console.log(text.length)
-console.log(arrayText)
-console.log(arrayText[0].length)*/
