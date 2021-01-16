@@ -4,7 +4,7 @@
   "description": "Implémentation de Exo Back TicTacTrip",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo coming soon",
+    "test": "jest",
     "build": "tsc",
     "start": "tsc & node .",
     "dev": "tsc -w & nodemon ."
@@ -17,8 +17,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.10",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.14.20",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
@@ -28,6 +30,14 @@
   },
   "homepage": "https://github.com/YasserHamek/EndPoint_Jutification#readme",
   "devDependencies": {
+    "@types/express": "^4.17.10",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.20",
+    "express": "^4.17.1",
+    "jest": "26.6",
+    "nodemon": "^2.0.7",
+    "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }
 }
