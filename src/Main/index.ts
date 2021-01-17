@@ -14,22 +14,31 @@ const port = 5000;
 const db = new Db();
 const tokenService = new TokenService();
 
-app.post('/api/token', (req: Request, res: Response, next) => {
+app.get('/api/jutify', (req: Request, res: Response, next) => {
+  res.send(db.singUp('yasseryasser@','tokentoken',0).then((value)=>value.rows));
   
+  //res.send(db.isUserInDb(req.params.email).then((value) => value.rows));
+  next();
+})
+
+app.post('/api/token', (req: Request, res: Response, next) => {
+  console.log('coucou0')
   if(db.isUserInDb(req.params.email)){
-    let token = tokenService.tokenGeneration();
+  console.log('********************'+db.isUserInDb(req.params.email))
+    let token: string = tokenService.tokenGeneration(req.params.email);
     let unJouEnMiliSeconode : number = 86400000;
 
-    db.upgradeRatecounter(unJouEnMiliSeconode,req.params.email);
+    db.upgradeRatecounter(unJouEnMiliSeconode, token, req.params.email);
     res.send(token)
     next()
 
   } else{
-    let token = tokenService.tokenGeneration();
+    console.log('coucou2')
+    let token = tokenService.tokenGeneration(req.params.email);
     let unJouEnMiliSeconode : number = 86400000;
     let timeLeft: number = new Date().getTime()+unJouEnMiliSeconode;
 
-    db.singIn(req.params.email,token,timeLeft);
+    db.singUp(req.params.email,token,timeLeft);
 
     res.send(token);
     next()

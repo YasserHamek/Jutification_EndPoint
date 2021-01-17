@@ -1,4 +1,4 @@
-import { Justification } from '../Justification';
+import { Justification } from '../Services/Justification';
 
 //Initialition
 let justifyClass: Justification = new Justification();
