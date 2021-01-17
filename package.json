@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "tsc",
     "start": "tsc & node .",
-    "dev": "tsc -w & nodemon ."
+    "dev": "tsc & nodemon ."
   },
   "repository": {
     "type": "git",

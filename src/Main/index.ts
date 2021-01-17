@@ -1,10 +1,14 @@
-//validator for email validation 
+/*var bodyParser = require('body-parser');
+var app = express();
+app.use(bodyParser.text());*/
+
 import { Request, Response } from 'express';
 import express from 'express';
 
 import { User } from '../Model/User';
 import {Db} from '../Services/db'
 import { TokenService } from '../Services/token';
+import {Justification} from '../Services/justification'
 
 
 
@@ -15,14 +19,25 @@ const db = new Db();
 const tokenService = new TokenService();
 
 app.get('/api/jutify', (req: Request, res: Response, next) => {
-  res.send(db.singUp('yasseryasser@','tokentoken',0).then((value)=>value.rows));
-  
-  //res.send(db.isUserInDb(req.params.email).then((value) => value.rows));
-  next();
+  let justify: Justification = new Justification();
+  let text: string = req.params.text.toString()
+  console.log(text);
+  console.log(req.params.text);
+
+  try{
+    let textjustified: string[] = justify.MainJustificationMethod(req.params.text)
+    res.status(200).json(textjustified).send();
+  } catch(e){
+    console.log(e);
+    res.status(500).send('internal server error');
+  }
+
+  //let user = db.singUp('yasser@yasser','tokentoken',0).then((value)=>value.rows[0]);
+  //res.send(db.isUserInDb('yasser@yasser').then((value) => value.rows));
 })
 
 app.post('/api/token', (req: Request, res: Response, next) => {
-  console.log('coucou0')
+  
   if(db.isUserInDb(req.params.email)){
   console.log('********************'+db.isUserInDb(req.params.email))
     let token: string = tokenService.tokenGeneration(req.params.email);
@@ -38,9 +53,13 @@ app.post('/api/token', (req: Request, res: Response, next) => {
     let unJouEnMiliSeconode : number = 86400000;
     let timeLeft: number = new Date().getTime()+unJouEnMiliSeconode;
 
-    db.singUp(req.params.email,token,timeLeft);
+    let user: User = new User(req.params.email,timeLeft);
+    user.rateCounter=0;
+    user.token=token;
 
-    res.send(token);
+    db.singUp(user);
+
+    res.send({user,token});
     next()
   }
   

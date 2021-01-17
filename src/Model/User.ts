@@ -4,6 +4,6 @@ export class User {
     token: string;
     rateCounter: number;
 
-    constructor(private email: string, private timeLeft:number){}
+    constructor(public email: string, public timeLeft:number){}
     
 }
