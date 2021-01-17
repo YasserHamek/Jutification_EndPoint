@@ -23,4 +23,9 @@ export class Db {
         const response: QueryResult = await this.pool.query('UPDATE users SET rateCounter = 0, timeLeft = $1, token = $2 WHERE email= $3',[timeLeft, token, email]);
     }
 
+    async findUser(email: string, token: string) {
+        const response: QueryResult = await this.pool.query('SELECT * FROM users WHERE email = $1, token = $2',[email, token]);
+        return response;
+    }
+
 }

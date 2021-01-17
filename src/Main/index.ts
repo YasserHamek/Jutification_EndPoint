@@ -18,11 +18,13 @@ const port = 5000;
 const db = new Db();
 const tokenService = new TokenService();
 
-app.get('/api/jutify', (req: Request, res: Response, next) => {
+app.post('/api/jutify', (req: Request, res: Response, next) => {
   let justify: Justification = new Justification();
-  let text: string = req.params.text.toString()
-  console.log(text);
-  console.log(req.params.text);
+  /*let text: string = req.params.text.toString()
+  console.log(text);*/
+  
+  console.log(req.header('email'));
+
 
   try{
     let textjustified: string[] = justify.MainJustificationMethod(req.params.text)
@@ -37,23 +39,25 @@ app.get('/api/jutify', (req: Request, res: Response, next) => {
 })
 
 app.post('/api/token', (req: Request, res: Response, next) => {
-  
-  if(db.isUserInDb(req.params.email)){
-  console.log('********************'+db.isUserInDb(req.params.email))
-    let token: string = tokenService.tokenGeneration(req.params.email);
+  let email: string = req.header('email');
+
+  if(db.isUserInDb(req.header('email'))){
+    console.log(email);
+    console.log('********************'+db.isUserInDb(email).then((value)=>value.rows))
+    let token: string = tokenService.tokenGeneration(email);
     let unJouEnMiliSeconode : number = 86400000;
 
-    db.upgradeRatecounter(unJouEnMiliSeconode, token, req.params.email);
+    db.upgradeRatecounter(unJouEnMiliSeconode, token, email);
     res.send(token)
     next()
 
   } else{
     console.log('coucou2')
-    let token = tokenService.tokenGeneration(req.params.email);
+    let token = tokenService.tokenGeneration(email);
     let unJouEnMiliSeconode : number = 86400000;
     let timeLeft: number = new Date().getTime()+unJouEnMiliSeconode;
 
-    let user: User = new User(req.params.email,timeLeft);
+    let user: User = new User(email,timeLeft);
     user.rateCounter=0;
     user.token=token;
 
