@@ -19,7 +19,7 @@ export class Db {
         return response;
     }
 
-    async upgradeRatecounter(timeLeft: number, token: string, email: string){
+    async upgradeRatecounter(email: string){
         const response: QueryResult = await this.pool.query('UPDATE users SET rateCounter = 0, timeLeft = $1, token = $2 WHERE email= $3',[timeLeft, token, email]);
     }
 

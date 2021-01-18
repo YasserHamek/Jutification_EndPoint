@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 
 import { User } from '../Model/User';
 import {Db} from '../Services/db'
-import { TokenService } from '../Services/token';
+import { decodedToken, TokenService } from '../Services/token';
 import {Justification} from '../Services/justification'
 
 const app = express();
@@ -14,10 +14,10 @@ const port = 5000;
 app.use(bodyParser.json())
 //app.use(bodyParser.text())
 
-
-
+//initialisation
 const db = new Db();
 const tokenService = new TokenService();
+
 
 app.post('/api/jutify', (req: Request, res: Response, next: NextFunction) => {
   let justify: Justification = new Justification();
@@ -40,12 +40,10 @@ app.post('/api/token', (req: Request, res: Response, next: NextFunction) => {
   let email: string = ''+req.query.email;
 
   if(db.isUserInDb(email)){
-    //console.log(email);
-    //console.log('********************'+db.isUserInDb(email).then((value)=>value.rows))
-    let token: string = tokenService.tokenGeneration(email);
-    let unJouEnMiliSeconode : number = 86400000;
 
-    db.upgradeRatecounter(unJouEnMiliSeconode, token, email);
+    let token: string = tokenService.tokenGeneration(email);
+
+    db.upgradeRatecounter(email);
     res.send(token)
     next()
 
