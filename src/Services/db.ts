@@ -11,12 +11,11 @@ export class Db {
 
     async isUserInDb(email: string) {
         try{
-            const response: QueryResult = await this.pool.query('SELECT * FROM users WHERE email = $1',[email]);
+            const response: QueryResult = await this.pool.query('SELECT email FROM users WHERE email = $1',[email]);
             return response;
         } catch(e) {
 
         }
-    
     }
 
     async singUp(user: User){
