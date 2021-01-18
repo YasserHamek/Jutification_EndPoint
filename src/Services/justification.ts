@@ -5,7 +5,7 @@ export class Justification {
     
     constructor(){}
 
-    MainJustificationMethod(text: string): string[]{
+    MainJustificationMethod(text: string): string{
         this.paragraphArray = [];
         this.textArray = [];
         this.finalText = [];
@@ -24,7 +24,7 @@ export class Justification {
         //calling justifyLine method
         this.textArray.forEach((value) => this.finalText.push(this.justifyLine(value)));
         
-        return this.finalText;
+        return this.finalText.join('\n');
     }
 
     //slice the text in small texts, return an array of small texts 

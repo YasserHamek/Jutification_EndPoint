@@ -4,7 +4,7 @@
   "description": "Implémentation de Exo Back TicTacTrip",
   "main": "dist/main/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "tsc",
     "start": "tsc & node .",
     "dev": "tsc & nodemon ."

@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export class User {
-    token: string;
-    rateCounter: number;
 
-    constructor(public email: string, public timeLeft:number){}
+    constructor(public email: string, public expireTime: number, public rateCounter: number){ }
     
 }

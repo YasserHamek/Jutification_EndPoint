@@ -6,7 +6,8 @@ import bodyParser from 'body-parser'
 import { User } from '../Model/User';
 import { Db } from '../Services/db'
 import { decodedToken, TokenService } from '../Services/token';
-import {Justification} from '../Services/justification'
+import { Justification } from '../Services/justification'
+import { authMiddleware } from '../Services/authmiddleware'
 
 const app = express();
 const port = 5000;
@@ -20,17 +21,21 @@ const tokenService = new TokenService();
 
 
 
-app.post('/api/jutify', (req: Request, res: Response, next: NextFunction) => {
+app.post('/api/jutify', authMiddleware ,(req: Request, res: Response, next: NextFunction) => {
+  if (!req.body.text) {
+    return res.status(400).send({ errorMessage: 'A text must be provided!' })
+  }
   let justify: Justification = new Justification();
+
+
 
   try{
     let text: string = req.body.text;
-    console.log(text);
-    let textjustified: string[] = justify.MainJustificationMethod(text)
+    let textjustified: string = justify.MainJustificationMethod(text)
     res.status(200).json(textjustified).send();
-  } catch(e){
+  } catch(e) {
     console.log(e);
-    res.status(500).send({message: 'internal server error'});
+    res.status(500).send({errorMessage: 'internal server error'});
   }
 
   //let user = db.singUp('yasser@yasser','tokentoken',0).then((value)=>value.rows[0]);
@@ -40,36 +45,23 @@ app.post('/api/jutify', (req: Request, res: Response, next: NextFunction) => {
 
 app.post('/api/token', async (req: Request, res: Response, next: NextFunction) => {
   if (!req.body.email) {
-    return res.status(400).send({ message: 'An email must be provided!' })
+    return res.status(400).send({ errorMessage: 'An email must be provided!' })
   }
 
   const email: string = <string>req.body.email;
-
-  const isUserInDb = await db.isUserInDb(email);
-  console.log("access to database",isUserInDb);
+  const isUserInDb: boolean = await db.isUserInDb(email);
+  let token: string = tokenService.tokenGeneration(email);
   
-  if(db.isUserInDb(email)){
+  if(isUserInDb){
 
-    let token: string = tokenService.tokenGeneration(email);
-
-    db.upgradeRatecounter(email);
     res.send(token)
-    next()
 
-  } else{
-    let token = tokenService.tokenGeneration(email);
+  } else {
 
-    let user: User = new User(email,0);
-    user.rateCounter=0;
-    user.token=token;
-
+    let user: User = new User(email,0,0);
     db.singUp(user);
-
     res.send({user,token});
-    next()
   }
-  
-
 })
 
 

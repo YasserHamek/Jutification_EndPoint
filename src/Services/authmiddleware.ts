@@ -14,8 +14,10 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
         if(db.isUserInDb(verifiedToken._email)){
             next()
+        } else {
+            throw new Error();
         }
     } catch(e) {
-        res.status(401).send("please get a valid token to continue");
+        res.status(401).send({errorMessage :"please get a valid token to continue"});
     }
 }
