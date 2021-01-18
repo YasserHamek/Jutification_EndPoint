@@ -19,8 +19,8 @@ export class Db {
         await this.pool.query('INSERT INTO users (email, rate_count, timeLeft) VALUES ($1, $2, $3)', [user.email, user.rateCounter, user.expireTime]);
     }
 
-    async upgradeRatecounter(email: string){
-        const response: QueryResult = await this.pool.query('UPDATE users SET rateCounter = 0 WHERE email= $3',[email]);
+    async updateUser(email: string, expireTime: number, rateCounter: number){
+        const response: QueryResult = await this.pool.query('UPDATE users SET expireTime = $1, rate_count = $2 WHERE email= $3',[expireTime, rateCounter ,email]);
     }
 
     async findUser(email: string) {

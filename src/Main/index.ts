@@ -1,13 +1,13 @@
-
-import {NextFunction, Request, Response } from 'express';
 import express from 'express';
+import { NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser'
 
 import { User } from '../Model/User';
 import { Db } from '../Services/db'
 import { decodedToken, TokenService } from '../Services/token';
 import { Justification } from '../Services/justification'
-import { authMiddleware } from '../Services/authmiddleware'
+import { authMiddleware } from '../Services/middleware'
+import { rateCheking } from '../Services/middleware'
 
 const app = express();
 const port = 5000;
@@ -19,19 +19,19 @@ app.use(bodyParser.json())
 const db = new Db();
 const tokenService = new TokenService();
 
+const m = async ()=>{
+  const user = await db.findUser('yasser@yasser');
+  console.log('******************************',user);
+}
+m();
 
 
-app.post('/api/jutify', authMiddleware ,(req: Request, res: Response, next: NextFunction) => {
-  if (!req.body.text) {
-    return res.status(400).send({ errorMessage: 'A text must be provided!' })
-  }
-  let justify: Justification = new Justification();
-
-
+app.post('/api/jutify', authMiddleware, rateCheking,  (req: Request, res: Response, next: NextFunction) => {  
+  const justify: Justification = new Justification();
+  const text: string = req.body.text;
 
   try{
-    let text: string = req.body.text;
-    let textjustified: string = justify.MainJustificationMethod(text)
+    const textjustified: string = justify.MainJustificationMethod(text)
     res.status(200).json(textjustified).send();
   } catch(e) {
     console.log(e);
@@ -50,7 +50,7 @@ app.post('/api/token', async (req: Request, res: Response, next: NextFunction) =
 
   const email: string = <string>req.body.email;
   const isUserInDb: boolean = await db.isUserInDb(email);
-  let token: string = tokenService.tokenGeneration(email);
+  const token: string = tokenService.tokenGeneration(email);
   
   if(isUserInDb){
 
