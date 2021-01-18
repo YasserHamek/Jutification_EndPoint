@@ -11,13 +11,13 @@ export class TokenService {
     }
 
     verifyToken(token: string){
-        let verifiedToken: decodedToken;
+        let verifiedToken : decodedToken;
   
         try {
             verifiedToken = <decodedToken>jwt.verify(token, this.jwtKey);
             return verifiedToken;
         } catch (error) {
-          return null;
+            return null;
         }
     }
 

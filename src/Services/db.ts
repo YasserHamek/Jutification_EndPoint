@@ -10,8 +10,13 @@ export class Db {
     };
 
     async isUserInDb(email: string) {
-        const response: QueryResult = await this.pool.query('SELECT * FROM users WHERE email = $1',[email]);
-        return response;
+        try{
+            const response: QueryResult = await this.pool.query('SELECT * FROM users WHERE email = $1',[email]);
+            return response;
+        } catch(e) {
+
+        }
+    
     }
 
     async singUp(user: User){
@@ -20,11 +25,11 @@ export class Db {
     }
 
     async upgradeRatecounter(email: string){
-        const response: QueryResult = await this.pool.query('UPDATE users SET rateCounter = 0, timeLeft = $1, token = $2 WHERE email= $3',[timeLeft, token, email]);
+        const response: QueryResult = await this.pool.query('UPDATE users SET rateCounter = 0 WHERE email= $3',[email]);
     }
 
-    async findUser(email: string, token: string) {
-        const response: QueryResult = await this.pool.query('SELECT * FROM users WHERE email = $1, token = $2',[email, token]);
+    async findUser(email: string) {
+        const response: QueryResult = await this.pool.query('SELECT * FROM users WHERE email = $1',[email]);
         return response;
     }
 

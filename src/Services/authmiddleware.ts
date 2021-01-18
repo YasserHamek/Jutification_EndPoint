@@ -1,24 +1,21 @@
 import {NextFunction, Request, Response} from 'express';
-import jwt from 'jsonwebtoken';
 import {Db} from '../Services/db'
-import {TokenService} from '../Services/token'
+import {decodedToken, TokenService} from '../Services/token'
 
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     let tokenService: TokenService = new TokenService();
 
     try{
-        const token = req.header('token');
-        let verifiedToken = tokenService.verifyToken(token);
-        
-        //verifiedToken.email;
+        const token: string = req.header('token');
+        let verifiedToken: decodedToken = tokenService.verifyToken(token);
 
         let db: Db = new Db();
 
-        //db.findUser(decoded.email ,token)
-
-
-    } catch {
-
+        if(db.isUserInDb(verifiedToken._email)){
+            next()
+        }
+    } catch(e) {
+        res.status(401).send("please get a valid token to continue");
     }
 }

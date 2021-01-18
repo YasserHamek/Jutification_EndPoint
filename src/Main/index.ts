@@ -39,29 +39,36 @@ app.post('/api/jutify', (req: Request, res: Response, next: NextFunction) => {
 app.post('/api/token', (req: Request, res: Response, next: NextFunction) => {
   let email: string = ''+req.query.email;
 
-  if(db.isUserInDb(email)){
+  if (req.header('token')===' '){
+    
+    res.status(200).send("already have a valid token");
+  }else {
+    if(db.isUserInDb(email)){
 
-    let token: string = tokenService.tokenGeneration(email);
-
-    db.upgradeRatecounter(email);
-    res.send(token)
-    next()
-
-  } else{
-    console.log('coucou2')
-    let token = tokenService.tokenGeneration(email);
-    let unJouEnMiliSeconode : number = 86400000;
-    let timeLeft: number = new Date().getTime()+unJouEnMiliSeconode;
-
-    let user: User = new User(email,timeLeft);
-    user.rateCounter=0;
-    user.token=token;
-
-    db.singUp(user);
-
-    res.send({user,token});
-    next()
+      let token: string = tokenService.tokenGeneration(email);
+  
+      db.upgradeRatecounter(email);
+      res.send(token)
+      next()
+  
+    } else{
+      console.log('coucou2')
+      let token = tokenService.tokenGeneration(email);
+      let unJouEnMiliSeconode : number = 86400000;
+      let timeLeft: number = new Date().getTime()+unJouEnMiliSeconode;
+  
+      let user: User = new User(email,timeLeft);
+      user.rateCounter=0;
+      user.token=token;
+  
+      db.singUp(user);
+  
+      res.send({user,token});
+      next()
+    }
   }
+
+
   
 
 })
