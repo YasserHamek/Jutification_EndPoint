@@ -1,8 +1,5 @@
-/*var bodyParser = require('body-parser');
-var app = express();
-app.use(bodyParser.text());*/
 
-import { Request, Response } from 'express';
+import {NextFunction, Request, Response } from 'express';
 import express from 'express';
 import bodyParser from 'body-parser'
 
@@ -11,28 +8,24 @@ import {Db} from '../Services/db'
 import { TokenService } from '../Services/token';
 import {Justification} from '../Services/justification'
 
-
-
 const app = express();
 const port = 5000;
 
 app.use(bodyParser.json())
+//app.use(bodyParser.text())
 
 
 
 const db = new Db();
 const tokenService = new TokenService();
 
-app.post('/api/jutify', (req: Request, res: Response, next) => {
+app.post('/api/jutify', (req: Request, res: Response, next: NextFunction) => {
   let justify: Justification = new Justification();
-  /*let text: string = req.params.text.toString()
-  console.log(text);*/
-  
-  console.log(req.header('email'));
-
 
   try{
-    let textjustified: string[] = justify.MainJustificationMethod(req.params.text)
+    let text: string = req.body.text;
+    console.log(text);
+    let textjustified: string[] = justify.MainJustificationMethod(text)
     res.status(200).json(textjustified).send();
   } catch(e){
     console.log(e);
@@ -43,11 +36,8 @@ app.post('/api/jutify', (req: Request, res: Response, next) => {
   //res.send(db.isUserInDb('yasser@yasser').then((value) => value.rows));
 })
 
-app.post('/api/token', (req: Request, res: Response, next) => {
-  console.log('[token]: req', { req });
-
-  let email: string = 'email@email.com';
-  console.log(req.body);
+app.post('/api/token', (req: Request, res: Response, next: NextFunction) => {
+  let email: string = ''+req.query.email;
 
   if(db.isUserInDb(email)){
     //console.log(email);
