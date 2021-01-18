@@ -9,6 +9,11 @@ for(let i in arrayText){
     console.log(i);
 }
 
+describe('justification', () => {
+    it('should justify text correctly', () => {
+        
+    })
+})
 test('Justification test', () =>{
     arrayText = justifyClass.MainJustificationMethod(text);
     expect(justifyClass.MainJustificationMethod(text)).toBeDefined();

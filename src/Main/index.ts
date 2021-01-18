@@ -4,7 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser'
 
 import { User } from '../Model/User';
-import {Db} from '../Services/db'
+import { Db } from '../Services/db'
 import { decodedToken, TokenService } from '../Services/token';
 import {Justification} from '../Services/justification'
 
@@ -30,16 +30,24 @@ app.post('/api/jutify', (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json(textjustified).send();
   } catch(e){
     console.log(e);
-    res.status(500).send('internal server error');
+    res.status(500).send({message: 'internal server error'});
   }
 
   //let user = db.singUp('yasser@yasser','tokentoken',0).then((value)=>value.rows[0]);
   //res.send(db.isUserInDb('yasser@yasser').then((value) => value.rows));
 })
 
-app.post('/api/token', (req: Request, res: Response, next: NextFunction) => {
-  let email: string = ''+req.query.email;
 
+app.post('/api/token', async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.body.email) {
+    return res.status(400).send({ message: 'An email must be provided!' })
+  }
+
+  const email: string = <string>req.body.email;
+
+  const isUserInDb = await db.isUserInDb(email);
+  console.log("access to database",isUserInDb);
+  
   if(db.isUserInDb(email)){
 
     let token: string = tokenService.tokenGeneration(email);

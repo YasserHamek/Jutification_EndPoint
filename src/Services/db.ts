@@ -10,12 +10,10 @@ export class Db {
     };
 
     async isUserInDb(email: string) {
-        try{
-            const response: QueryResult = await this.pool.query('SELECT email FROM users WHERE email = $1',[email]);
-            return response;
-        } catch(e) {
-
-        }
+        const response: any = await this.pool.query('SELECT email FROM users WHERE email = $1',[email]);
+        console.log('\x1b[36m%s\x1b[0m', '[isUserInDb]: ');
+        console.log(response.rows[0])
+        return response.rows[0];
     }
 
     async singUp(user: User){
