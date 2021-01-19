@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 
 import { User } from '../Model/User';
 import { Db } from '../Services/db'
-import { TokenService } from '../Services/token';
+import { DecodedToken, TokenService } from '../Services/tokenService';
 import { Justification } from '../Services/justification'
 import { authMiddleware } from '../Services/middleware'
 import { rateCheking } from '../Services/middleware'
@@ -16,18 +16,8 @@ app.use(bodyParser.json())
 //app.use(bodyParser.text())
 
 //initialisation
-
 const tokenService = new TokenService();
 const db = new Db();
-const m = async ()=>{
-  await db.singUp(new User('yasser@yasser',0,0));
-  db.findUser('yasser@yasser').then((user)=>{
-    console.log('111111111111111111111111',user)
-  });
-  console.log('2222222222222222222222222');
-}
-
-m();
 
 
 app.post('/api/jutify', authMiddleware, rateCheking,  (req: Request, res: Response, next: NextFunction) => {  
@@ -35,8 +25,11 @@ app.post('/api/jutify', authMiddleware, rateCheking,  (req: Request, res: Respon
   const text: string = req.body.text;
 
   try{
+    let user: User =res.locals.user;
+    const wordsLeft: number = 80000 -user.ratecounter;
     const textjustified: string = justify.MainJustificationMethod(text);
-    res.status(200).json(textjustified).send();
+    res.status(200).json({"wordsLeft": wordsLeft,"textjustified": textjustified}).send();
+
   } catch(e) {
     console.log(e);
     res.status(500).send({ errorMessage: 'internal server error' });
@@ -51,12 +44,10 @@ app.post('/api/token', async (req: Request, res: Response, next: NextFunction) =
   }
   try{
     
-    const db = new Db();
-
     const email: string = <string>req.body.email;
     const isUserInDb: boolean = await db.isUserInDb(email);
     const token: string = tokenService.tokenGeneration(email);
-    
+
     if(isUserInDb){
   
       res.send(token)

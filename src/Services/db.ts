@@ -11,7 +11,7 @@ export class Db {
     };
 
     async createTable(){
-        await this.pool.query('CREATE TABLE IF NOT EXISTS users ( email VARCHAR(255) PRIMARY KEY, rate_count INT, timeLeft INT );')
+        await this.pool.query('CREATE TABLE IF NOT EXISTS users ( email VARCHAR(255) PRIMARY KEY, rateCounter INT, expireTime INT );')
         this.isTableInDataBase = true;
     }
 
@@ -27,14 +27,14 @@ export class Db {
         if(!this.isTableInDataBase){
             await this.createTable();
         } 
-        await this.pool.query('INSERT INTO users (email, rate_count, timeLeft) VALUES ($1, $2, $3)', [user.email, user.rateCounter, user.expireTime]);
+        await this.pool.query('INSERT INTO users (email, ratecounter, expiretime) VALUES ($1, $2, $3)', [user.email, user.ratecounter, user.expiretime]);
     }
 
     async updateUser(email: string, expireTime: number, rateCounter: number){
         if(!this.isTableInDataBase){
             await this.createTable();
         } 
-        await this.pool.query('UPDATE users SET expireTime = $1, rate_count = $2 WHERE email= $3',[expireTime, rateCounter ,email]);
+        await this.pool.query('UPDATE users SET expireTime = $1, rateCounter = $2 WHERE email= $3',[expireTime, rateCounter ,email]);
     }
 
     async findUser(email: string) {
