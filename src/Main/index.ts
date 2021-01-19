@@ -28,6 +28,7 @@ app.post('/api/jutify', authMiddleware, rateCheking,  (req: Request, res: Respon
     let user: User =res.locals.user;
     const wordsLeft: number = 80000 -user.ratecounter;
     const textjustified: string = justify.MainJustificationMethod(text);
+    console.log(textjustified);
     res.status(200).json({"wordsLeft": wordsLeft,"textjustified": textjustified}).send();
 
   } catch(e) {

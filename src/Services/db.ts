@@ -11,7 +11,7 @@ export class Db {
     };
 
     async createTable(){
-        await this.pool.query('CREATE TABLE IF NOT EXISTS users ( email VARCHAR(255) PRIMARY KEY, rateCounter INT, expireTime INT );')
+        await this.pool.query('CREATE TABLE IF NOT EXISTS users ( email VARCHAR(255) PRIMARY KEY, rateCounter BIGINT, expireTime BIGINT );')
         this.isTableInDataBase = true;
     }
 
