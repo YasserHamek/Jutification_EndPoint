@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YasserHamek/EndPoint_Jutification.git"
+    "url": "git+https://github.com/YasserHamek/Jutification_EndPoint.git"
   },
   "author": "YasserHamek",
   "license": "ISC",
@@ -45,6 +45,6 @@
     "typescript": "^4.1.3"
   },
   "engines": {
-    "node": "12.16.2"
+    "node": "15.5.1"
   }
 }
