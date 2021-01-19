@@ -6,7 +6,6 @@ import { DecodedToken, TokenService } from '../Services/tokenService'
 const db: Db = new Db();
 const maxWords: number =80000;
 
-
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const tokenService: TokenService = new TokenService();
 
@@ -41,10 +40,10 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 }
 
 export const rateCheking = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.text) {
+    if (!req.body) {
         return res.status(400).send({ errorMessage: 'A text must be provided!' })
     }
-    const textToBeVerified : string[] = req.body.text.split(' ');
+    const textToBeVerified : string[] = req.body.split(' ');
 
     if(textToBeVerified.length > maxWords){
         return res.status(402).send({ errorMessage: 'Processing text that contain more than 80 000 words not possible in the free formule, Payement Required' })
@@ -69,9 +68,15 @@ export const rateCheking = async (req: Request, res: Response, next: NextFunctio
             return res.status(402).send({ errorMessage: ' 80 000 words per day has been consumed, Payement Required to continue ' })
         } 
 
-
     } catch (e) {
         console.log(e);
         return res.status(500).send({errorMessage: 'internal server error'});
     }
+}
+
+export const headerChecking = async (req: Request, res: Response, next: NextFunction) =>{
+    if(req.header("Content-Type")!="text/plain"){
+        return res.status(400).send({ errorMessage: 'A header of type : "text/plain" must be provided!' })
+    }
+    next();
 }

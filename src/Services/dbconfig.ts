@@ -1,5 +1,4 @@
 
-
 export const dbconfig = {
     db: { 
       host: 'ziggy.db.elephantsql.com',
@@ -8,5 +7,4 @@ export const dbconfig = {
       password: 'm9bT99-QxrNsch5CqZiQf9dJncqkPpy5',
       database: 'npeelcph',
     },
-
   };
