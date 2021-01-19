@@ -60,3 +60,4 @@ app.post('/api/token', async (req: Request, res: Response, next: NextFunction) =
 })
 
 app.listen(port, () => console.log(`[INDEX.TS] Running on port ${port}`))
+

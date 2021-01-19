@@ -44,5 +44,4 @@ export class Db {
         const response: QueryResult = await this.pool.query('SELECT * FROM users WHERE email = $1',[email]);
         return <User>response.rows[0];
     }
-
 }

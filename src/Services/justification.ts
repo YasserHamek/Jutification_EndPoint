@@ -120,6 +120,5 @@ export class Justification {
         }
         return outPutLine;
     }
-
 }
 
