@@ -20,9 +20,12 @@ const db = new Db();
 const tokenService = new TokenService();
 
 const m = async ()=>{
-  const user = await db.findUser('yasser@yasser');
-  console.log('******************************',user);
+  db.findUser('yasser@yasser').then((user)=>{
+    console.log('111111111111111111111111',user)
+  });
+  console.log('2222222222222222222222222');
 }
+
 m();
 
 

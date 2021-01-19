@@ -21,7 +21,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
             throw new Error();
         }
     } catch(e) {
-        res.status(401).send({errorMessage :"please get a valid token to continue, or register in database"});
+        res.status(401).send({errorMessage :"to continue, please get a valid token or register in database"});
     }
 }
 
@@ -50,7 +50,7 @@ export const rateCheking = async (req: Request, res: Response, next: NextFunctio
             next();
 
         } else if ( user.expireTime < new Date().getTime() && user.rateCounter + textToBeVerified.length >= maxWords ) {
-            return res.status(402).send({ errorMessage: ' 80 000 words per day has been consumed, to continue Payement Required' })
+            return res.status(402).send({ errorMessage: ' 80 000 words per day has been consumed, Payement Required to continue ' })
         } 
 
     } catch (e) {
