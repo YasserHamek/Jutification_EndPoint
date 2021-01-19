@@ -8,7 +8,6 @@ export class Db {
 
     constructor(){
         this.pool = new Pool(dbconfig.db);
-        this.createTable();
     };
 
     async createTable(){
@@ -19,7 +18,7 @@ export class Db {
     async isUserInDb(email: string) {
         if(!this.isTableInDataBase){
             await this.createTable();
-        } 
+        }
         const response = await this.pool.query('SELECT email FROM users WHERE email = $1',[email]);
         return response.rowCount === 1;
     }
@@ -27,7 +26,7 @@ export class Db {
     async singUp(user: User){
         if(!this.isTableInDataBase){
             await this.createTable();
-        }
+        } 
         await this.pool.query('INSERT INTO users (email, rate_count, timeLeft) VALUES ($1, $2, $3)', [user.email, user.rateCounter, user.expireTime]);
     }
 

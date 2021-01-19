@@ -1,4 +1,4 @@
-import { Justification } from '../Services/Justification';
+import { Justification } from '../src/Services/justification';
 import { promises as fs } from 'fs';
 import path from 'path';
 

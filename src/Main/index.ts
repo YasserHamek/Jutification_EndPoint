@@ -19,7 +19,7 @@ app.use(bodyParser.json())
 
 const tokenService = new TokenService();
 const db = new Db();
-/*const m = async ()=>{
+const m = async ()=>{
   await db.singUp(new User('yasser@yasser',0,0));
   db.findUser('yasser@yasser').then((user)=>{
     console.log('111111111111111111111111',user)
@@ -27,7 +27,7 @@ const db = new Db();
   console.log('2222222222222222222222222');
 }
 
-m();*/
+m();
 
 
 app.post('/api/jutify', authMiddleware, rateCheking,  (req: Request, res: Response, next: NextFunction) => {  

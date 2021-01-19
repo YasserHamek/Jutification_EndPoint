@@ -18,8 +18,9 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         }
         const token: string = req.header('token');
         const verifiedToken: decodedToken = tokenService.verifyToken(token);
+        const isUserInDb: boolean = await db.isUserInDb(verifiedToken._email)
         
-        if(db.isUserInDb(verifiedToken._email)){
+        if(isUserInDb){
             res.locals.user = await db.findUser(verifiedToken._email);
             next() 
         } else {
@@ -47,12 +48,12 @@ export const rateCheking = async (req: Request, res: Response, next: NextFunctio
             //this case, is the first time the user tried to justify a text after getting a token
             user.expireTime = new Date().getTime()+86400000; // 24h in milisecond;
             user.rateCounter=textToBeVerified.length;
-            db.updateUser(user.email, user.expireTime, user.rateCounter);
+            await db.updateUser(user.email, user.expireTime, user.rateCounter);
             next();
 
         } else if ( user.expireTime < new Date().getTime() && user.rateCounter + textToBeVerified.length < maxWords ) {
             user.rateCounter += textToBeVerified.length;
-            db.updateUser(user.email,user.expireTime,user.rateCounter);
+            await db.updateUser(user.email,user.expireTime,user.rateCounter);
             next();
 
         } else if ( user.expireTime < new Date().getTime() && user.rateCounter + textToBeVerified.length >= maxWords ) {
