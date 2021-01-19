@@ -38,7 +38,7 @@ export class Justification {
 
             if (editedText.length>80){
 
-                if(editedText.charAt(79)==' '){
+                if(editedText.charAt(79)===' '){
                     //the case where this line end with span
                     this.textArray.push(editedText.slice(0,80))
                     editedText= editedText.slice(79,editedText.length)
@@ -49,13 +49,13 @@ export class Justification {
             
                     while(!condition && i<79){
                         i++;
-                        if(editedText.charAt(79-i)==' '){
+                        if(editedText.charAt(79-i)===' '){
                             condition = true;
                             spanIndex=i;
                         }
                     }
                     //checking if the word does not contains 79 caracter
-                    if(spanIndex==80){
+                    if(spanIndex===80){
                         this.textArray.push(editedText.slice(0,80));
                         editedText= editedText.slice(79,editedText.length);
                     } else {
@@ -80,7 +80,7 @@ export class Justification {
         outPutLine = outPutLine.trimStart().trimRight();
         numberOfSpan = 80 - outPutLine.length;
 
-        if(numberOfSpan==0){
+        if(numberOfSpan===0){
             return outPutLine;
         }else {
             outPutLine = this.AddingSpanToLine(outPutLine,numberOfSpan);
@@ -105,7 +105,7 @@ export class Justification {
         let i: number = 0;
 
         while(i<spanNum*2 && spanNumber!=0){
-            if(i%2==0){
+            if(i%2===0){
                 outPutLine= outPutLine.concat(inPutLine.slice(0,inPutLine.search(' ')+1)+' ');
                 inPutLine = inPutLine.slice(inPutLine.search(' ')+1);
             }else {

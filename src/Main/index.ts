@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 
 import { User } from '../Model/User';
 import { Db } from '../Services/db'
-import { decodedToken, TokenService } from '../Services/token';
+import { TokenService } from '../Services/token';
 import { Justification } from '../Services/justification'
 import { authMiddleware } from '../Services/middleware'
 import { rateCheking } from '../Services/middleware'
@@ -16,17 +16,18 @@ app.use(bodyParser.json())
 //app.use(bodyParser.text())
 
 //initialisation
-const db = new Db();
-const tokenService = new TokenService();
 
-const m = async ()=>{
+const tokenService = new TokenService();
+const db = new Db();
+/*const m = async ()=>{
+  await db.singUp(new User('yasser@yasser',0,0));
   db.findUser('yasser@yasser').then((user)=>{
     console.log('111111111111111111111111',user)
   });
   console.log('2222222222222222222222222');
 }
 
-m();
+m();*/
 
 
 app.post('/api/jutify', authMiddleware, rateCheking,  (req: Request, res: Response, next: NextFunction) => {  
@@ -34,37 +35,43 @@ app.post('/api/jutify', authMiddleware, rateCheking,  (req: Request, res: Respon
   const text: string = req.body.text;
 
   try{
-    const textjustified: string = justify.MainJustificationMethod(text)
+    const textjustified: string = justify.MainJustificationMethod(text);
     res.status(200).json(textjustified).send();
   } catch(e) {
     console.log(e);
-    res.status(500).send({errorMessage: 'internal server error'});
+    res.status(500).send({ errorMessage: 'internal server error' });
   }
 
-  //let user = db.singUp('yasser@yasser','tokentoken',0).then((value)=>value.rows[0]);
-  //res.send(db.isUserInDb('yasser@yasser').then((value) => value.rows));
 })
 
 
 app.post('/api/token', async (req: Request, res: Response, next: NextFunction) => {
   if (!req.body.email) {
-    return res.status(400).send({ errorMessage: 'An email must be provided!' })
+    return res.status(400).send({ errorMessage: 'An email must be provided!' });
   }
+  try{
+    
+    const db = new Db();
 
-  const email: string = <string>req.body.email;
-  const isUserInDb: boolean = await db.isUserInDb(email);
-  const token: string = tokenService.tokenGeneration(email);
+    const email: string = <string>req.body.email;
+    const isUserInDb: boolean = await db.isUserInDb(email);
+    const token: string = tokenService.tokenGeneration(email);
+    
+    if(isUserInDb){
   
-  if(isUserInDb){
-
-    res.send(token)
-
-  } else {
-
-    let user: User = new User(email,0,0);
-    db.singUp(user);
-    res.send({user,token});
+      res.send(token)
+  
+    } else {
+  
+      let user: User = new User(email,0,0);
+      await db.singUp(user);
+      res.send({user,token});
+    }
+  } catch(e) {
+    console.log(e);
+    res.status(500).send({ errorMessage: 'internal server error' });
   }
+
 })
 
 

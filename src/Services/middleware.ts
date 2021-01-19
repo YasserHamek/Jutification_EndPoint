@@ -7,21 +7,27 @@ import {decodedToken, TokenService} from '../Services/token'
 const db: Db = new Db();
 const maxWords: number =80000;
 
+
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const tokenService: TokenService = new TokenService();
 
     try{
+
+        if (!req.header('token')) {
+            return res.status(401).send({ errorMessage: 'to continue, please get a valid token' })
+        }
         const token: string = req.header('token');
         const verifiedToken: decodedToken = tokenService.verifyToken(token);
-
+        
         if(db.isUserInDb(verifiedToken._email)){
             res.locals.user = await db.findUser(verifiedToken._email);
             next() 
         } else {
-            throw new Error();
+            res.status(401).send({errorMessage :"to continue, please register in database"});
         }
+
     } catch(e) {
-        res.status(401).send({errorMessage :"to continue, please get a valid token or register in database"});
+        res.status(500).send({ errorMessage: 'internal server error' });
     }
 }
 
@@ -38,7 +44,7 @@ export const rateCheking = async (req: Request, res: Response, next: NextFunctio
     try{
         let user : User = res.locals.user;
         if(user.expireTime === 0 || user.expireTime > new Date().getTime()){
-            //here user didn't try to justify text yet
+            //this case, is the first time the user tried to justify a text after getting a token
             user.expireTime = new Date().getTime()+86400000; // 24h in milisecond;
             user.rateCounter=textToBeVerified.length;
             db.updateUser(user.email, user.expireTime, user.rateCounter);
