@@ -8,7 +8,7 @@ import { Justification } from '../Services/justification'
 import { authMiddleware, headerChecking, rateCheking } from '../Services/middleware'
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json())
 app.use(bodyParser.text())
@@ -16,7 +16,6 @@ app.use(bodyParser.text())
 //initialisation
 const tokenService = new TokenService();
 const db = new Db();
-
 
 app.post('/api/jutify', authMiddleware, headerChecking, rateCheking,  (req: Request, res: Response, next: NextFunction) => {  
   const justify: Justification = new Justification();
