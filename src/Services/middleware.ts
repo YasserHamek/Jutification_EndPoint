@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { User } from '../Model/user';
-import { Db } from '../Services/db'
+import { User } from 'src/Model/user';
+import { Db } from 'src/Services/db'
 import { DecodedToken, TokenService } from '../Services/tokenService'
 
 const db: Db = new Db();

@@ -1,6 +1,6 @@
 import { Pool, QueryResult  } from 'pg';
-import {dbconfig} from '../Services/dbconfig';
-import {User} from '../Model/user';
+import {dbconfig} from 'src/Services/dbconfig';
+import {User} from 'src/Model/user';
 
 export class Db {
     pool : Pool;

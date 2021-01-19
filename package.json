@@ -1,8 +1,8 @@
 {
   "name": "endpoint_justification",
   "version": "1.0.0",
-  "description": "Implémentation de Exo Back TicTacTrip",
-  "main": "dist/main/index.js",
+  "description": "text justification, rate cheking, token authentification rest API endpoint ",
+  "main": "dist/src/main/index.js",
   "scripts": {
     "test": "jest --runInBand",
     "build": "tsc",
