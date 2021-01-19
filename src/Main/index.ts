@@ -17,7 +17,7 @@ app.use(bodyParser.text())
 const tokenService = new TokenService();
 const db = new Db();
 
-app.post('/api/jutify', authMiddleware, headerChecking, rateCheking,  (req: Request, res: Response, next: NextFunction) => {  
+app.post('/api/justify', authMiddleware, headerChecking, rateCheking,  (req: Request, res: Response, next: NextFunction) => {  
   const justify: Justification = new Justification();
   const text: string = req.body;
 
