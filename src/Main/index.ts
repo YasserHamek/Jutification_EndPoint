@@ -1,11 +1,11 @@
 import express from 'express';
 import { NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser'
-import { User } from 'src/Model/user';
-import { Db } from 'src/Services/db'
-import { TokenService } from 'src/Services/tokenService';
-import { Justification } from 'src/Services/justification'
-import { authMiddleware, headerChecking, rateCheking } from 'src/Services/middleware'
+import { User } from './../Model/user';
+import { Db } from './../Services/db'
+import { TokenService } from './../Services/tokenService';
+import { Justification } from './../Services/justification'
+import { authMiddleware, headerChecking, rateCheking } from './../Services/middleware'
 
 const app = express();
 const port = process.env.PORT || 5000;

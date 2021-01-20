@@ -2,7 +2,7 @@
   "name": "endpoint_justification",
   "version": "1.0.0",
   "description": "text justification, rate cheking, token authentification rest API endpoint ",
-  "main": "dist/src/main/index.js",
+  "main": "dist/Main/index.js",
   "scripts": {
     "test": "jest --runInBand",
     "build": "tsc",
@@ -43,4 +43,3 @@
     "node": "15.5.1"
   }
 }
-
