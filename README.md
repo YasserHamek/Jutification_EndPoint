@@ -2,41 +2,43 @@
 
 The application is deployed with heroku at : https://justification-restapi-endpoint.herokuapp.com/ (the page may take some time to charge)
 
-### API End-Point
+# API End-Point
 
-#### Token
+## Token
 
 Get a token by posting an email
 
-##### URL :
+#### URL :
 
 - **POST** : https://justification-restapi-endpoint.herokuapp.com/api/token
 
-##### Headers :
+#### Headers :
 
 - Content-Type: application/json
 
-##### Body:
+#### Body:
 
 - ```
   { "email" : "yourEmail"  }
   ```
 
-#### Text Justifing
+
+
+## Text Justifing
 
 Get a justified text by posting a text
 
-##### URL :
+#### URL :
 
 - **POST** : https://justification-restapi-endpoint.herokuapp.com/api/justify
 
-##### Headers :
+#### Headers :
 
 - **Content-Type :** text/plain
 
-- **Token : ** your token
+- **Token :** your token
 
-##### Body:
+#### Body:
 
 - ```
   Your text that need justifing. 
