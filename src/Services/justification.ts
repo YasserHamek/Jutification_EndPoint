@@ -5,6 +5,10 @@ export class Justification {
     
     constructor(){}
 
+    /**
+     * @param text as string to be justified
+     * @returns justified text as a string
+     */
     MainJustificationMethod(text: string): string{
         this.paragraphArray = [];
         this.textArray = [];
@@ -27,7 +31,11 @@ export class Justification {
         return this.finalText.join('\n');
     }
 
-    //slice the text in small texts, return an array of small texts 
+    //slice the text in small texts
+    /**
+     * @param text as a string to be sliced
+     * @returns a string table containing lines
+     */
     SlicingText(text: string): string[]{
         let editedText: string = text;
         let spanIndex: number = 0;
@@ -72,7 +80,11 @@ export class Justification {
         return this.textArray;
     }
 
-    //Second step : making the space in the strings equal as possible 
+    //making the space in the strings equal as possible, 
+    /**
+     * @param line to be justified
+     * @returns a justified line
+     */ 
     justifyLine(line: string): string{
         let outPutLine = line;
         let numberOfSpan: number = 0;
@@ -98,6 +110,12 @@ export class Justification {
 
     }
 
+    //adding the missing space between line to reach the max caracter
+    /**
+     * 
+     * @param line to be justified
+     * @param spanNumber the number of missing caracter to reach the max caracter
+     */
     AddingSpanToLine(line: string, spanNumber: number): string{
         let spanNum: number = spanNumber;
         let inPutLine: string = line;

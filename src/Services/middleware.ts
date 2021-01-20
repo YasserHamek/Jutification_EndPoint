@@ -6,6 +6,7 @@ import { DecodedToken, TokenService } from './../Services/tokenService'
 const db: Db = new Db();
 const maxWords: number =80000;
 
+//check if the user is have a valid token
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const tokenService: TokenService = new TokenService();
 
@@ -39,6 +40,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
 }
 
+//check if the user reached the words rate limit
 export const rateCheking = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.body) {
         return res.status(400).send({ errorMessage: 'A text must be provided!' })
@@ -74,6 +76,7 @@ export const rateCheking = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
+//check if the header is in correct format
 export const headerChecking = async (req: Request, res: Response, next: NextFunction) =>{
     if(req.header("Content-Type")!="text/plain"){
         return res.status(400).send({ errorMessage: 'A header of type : "text/plain" must be provided!' })
