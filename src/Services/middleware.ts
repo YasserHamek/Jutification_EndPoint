@@ -54,19 +54,19 @@ export const rateCheking = async (req: Request, res: Response, next: NextFunctio
     try{
         let user: User = res.locals.user;
 
-        if(user.ratecounter === 0 || user.expiretime > new Date().getTime()){
+        if(user.ratecounter === 0 || user.expiretime < new Date().getTime()){
             //this case, is the first time the user tried to justify a text after getting a token
-            user.expiretime = new Date().getTime()+86400000; // 24h in milisecond;
+            user.expiretime = +new Date().getTime() + +86400000; // 24h in milisecond;
             user.ratecounter=textToBeVerified.length;
             await db.updateUser(user.email, user.expiretime, user.ratecounter);
             next();
 
-        } else if ( user.expiretime < new Date().getTime() && +user.ratecounter + +textToBeVerified.length < maxWords ) {
+        } else if ( user.expiretime > new Date().getTime() && +user.ratecounter + +textToBeVerified.length < maxWords ) {
             user.ratecounter = +user.ratecounter + +textToBeVerified.length;
             await db.updateUser(user.email,user.expiretime,user.ratecounter);
             next();
            
-        } else if ( user.expiretime < new Date().getTime() && +user.ratecounter + +textToBeVerified.length >= maxWords ) {
+        } else if ( user.expiretime > new Date().getTime() && +user.ratecounter + +textToBeVerified.length >= maxWords ) {
             return res.status(402).send({ errorMessage: ' 80 000 words per day has been consumed, Payement Required to continue ' })
         } 
 
